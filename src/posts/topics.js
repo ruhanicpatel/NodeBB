@@ -7,19 +7,19 @@ const utils = require('../utils');
 
 module.exports = function (Posts) {
 	//ChatGPT helped me refactor this post 
-    Posts.getPostsFromSet = async function (...args) {
-        let set, start, stop, uid, reverse;
+	Posts.getPostsFromSet = async function (...args) {
+		let set, start, stop, uid, reverse;
     
-        if (args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
-            ({ set, start, stop, uid, reverse } = args[0]);
-        } else {
-            [set, start, stop, uid, reverse] = args;
-        }
+		if (args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
+			({ set, start, stop, uid, reverse } = args[0]);
+		} else {
+			[set, start, stop, uid, reverse] = args;
+		}
 		console.log('Ruhani: flags.list executed');
-        const pids = await Posts.getPidsFromSet(set, start, stop, reverse);
-        const posts = await Posts.getPostsByPids(pids, uid);
-        return await user.blocks.filter(uid, posts);
-    };
+		const pids = await Posts.getPidsFromSet(set, start, stop, reverse);
+		const posts = await Posts.getPostsByPids(pids, uid);
+		return await user.blocks.filter(uid, posts);
+	};
 
 	Posts.isMain = async function (pids) {
 		const isArray = Array.isArray(pids);
