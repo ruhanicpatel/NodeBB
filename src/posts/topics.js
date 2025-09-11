@@ -15,7 +15,6 @@ module.exports = function (Posts) {
 		} else {
 			[set, start, stop, uid, reverse] = args;
 		}
-		console.log('Ruhani: flags.list executed');
 		const pids = await Posts.getPidsFromSet(set, start, stop, reverse);
 		const posts = await Posts.getPostsByPids(pids, uid);
 		return await user.blocks.filter(uid, posts);
