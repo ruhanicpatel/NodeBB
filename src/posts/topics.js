@@ -7,18 +7,25 @@ const utils = require('../utils');
 
 module.exports = function (Posts) {
 	//ChatGPT helped me refactor this post 
-	Posts.getPostsFromSet = async function (...args) {
-		let set, start, stop, uid, reverse;
-    
-		if (args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
-			({ set, start, stop, uid, reverse } = args[0]);
-		} else {
-			[set, start, stop, uid, reverse] = args;
+	Posts.getPostsFromSet = async function (opts) {
+		// Handle backward compatibility if someone calls with multiple args
+		if (!opts || typeof opts !== 'object' || Array.isArray(opts)) {
+			const [set, start, stop, uid, reverse] = arguments;
+			opts = { set, start, stop, uid, reverse };
 		}
+	
+		const { set, start, stop, uid, reverse } = opts;
+
+	
+		if (!(parseInt(uid, 10) > 0)) {
+			throw new Error('[[error:not-logged-in]]');
+		}
+	
 		const pids = await Posts.getPidsFromSet(set, start, stop, reverse);
 		const posts = await Posts.getPostsByPids(pids, uid);
 		return await user.blocks.filter(uid, posts);
 	};
+	
 
 	Posts.isMain = async function (pids) {
 		const isArray = Array.isArray(pids);
